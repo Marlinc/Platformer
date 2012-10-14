@@ -24,4 +24,8 @@ This will automatically clean the build, compile the source and create a jar wit
 Downloads
 -----------
 
-* [Latest build](http://jenkins.marlinc.nl/job/Platformer/lastSuccessfulBuild/artifact/build/platformer.jar)
+
+* [Latest Linux x86](http://jenkins.marlinc.nl/job/Platformer//jdk=OpenJDK%207/lastSuccessfulBuild/artifact/build/platformer-linux-x86.jar)
+* [Latest Linux x86_64](http://jenkins.marlinc.nl/job/Platformer//jdk=OpenJDK%207/lastSuccessfulBuild/artifact/build/platformer-linux-x86_64.jar)
+* [Latest Windows x86](http://jenkins.marlinc.nl/job/Platformer/jdk=OpenJDK%207/lastSuccessfulBuild/artifact/build/platformer-windows-x86.jar)
+* [Latest Windows x86_64](http://jenkins.marlinc.nl/job/Platformer//jdk=OpenJDK%207/lastSuccessfulBuild/artifact/build/platformer-windows-x86_64.jar)
