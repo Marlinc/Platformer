@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="jar" name="Create Runnable Jar for Project Platformer with Jar-in-Jar Loader">
+	<path id="global-classpath">
+		<fileset file="lib/jars/lwjgl.jar" />
+		<fileset file="lib/jars/lwjgl_util.jar" />
+		<fileset file="lib/jars/slick-util.jar" />
+	</path>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="build/classes" />
+		<!-- . is used for pointing to the current directory -->
+		<javac srcdir="src" destdir="build/classes">
+			<classpath refid="global-classpath" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="global-manifest, compile">
+		<jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer.jar"
+			filesetmanifest="mergewithoutmain" basedir="build/classes">
+			<zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="lib/jars/slick-util.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="lib/jars/jarsplice.jar" />
+			<fileset file="lib/natives/*" />
+			<fileset dir=".">
+	           <include name="**/res/**"/>
+	        </fileset>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="build/classes" />
+	</target>
+
+	<target name="global-manifest">
+		<mkdir dir="build/META-INF" />
+		<manifest file="build/META-INF/MANIFEST.MF">
+			<attribute name="Main-Class" value="org.ninjacave.jarsplice.JarSpliceLauncher"/>
+			<attribute name="Launcher-Main-Class" value="platformer.Main" />
+			<attribute name="Launcher-VM-Args" value="" />
+		</manifest>
+	</target>
+
+</project>
