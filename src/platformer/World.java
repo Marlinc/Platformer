@@ -11,6 +11,7 @@ public class World {
     public WorldGenerator worldgenerator;
     public ChunkHandler chunkhandler;
     public List<Entity> entities;
+    public List<int[]> scheduledTicks;
     public EntityPlayerSP thePlayer;
     public final int chunkSize;
     public int chunkupdates;
@@ -20,6 +21,7 @@ public class World {
     
     public World (Main main)
     {
+        scheduledTicks = new ArrayList<int[]>();
         hud = new HUD(this);
         randomTick = 0;
         chunkupdates = 0;
@@ -65,6 +67,19 @@ public class World {
                 chunk.getTileRelative(x, y).onRandomTick(this,
                         x + chunk.x * chunkSize + 1,
                         y + chunk.y * chunkSize + 1);
+            }
+        }
+        if (doTick) {
+            Tile tile;
+            List<int[]> scheduledTicks = new ArrayList<int[]>(this.scheduledTicks);
+            this.scheduledTicks.clear();
+            for (int[] info : scheduledTicks) {
+                if (info[2] > 0) {
+                    scheduleTick(info[0], info[1], info[2] - 1);
+                    continue;
+                }
+                tile = getTile(info[0], info[1]);
+                if (tile != null) tile.onScheduledTick(this, info[0], info[1]);
             }
         }
         /*chunkhandler.generateChunk(thePlayer.getChunkX(),
@@ -140,7 +155,7 @@ public class World {
         if (tile2 == null || tile2.id == tile.id) return null; 
         tile2.onBlockRemoval(this, x, y);
         Tile tile3;
-        
+        tile.onPlacement(this, x, y);
         tile3 = getTile(x+1, y);
         if (tile3 != null) tile3.onNeighbourTileChange(this, x+1, y, x, y);
         tile3 = getTile(x-1, y);
@@ -150,6 +165,10 @@ public class World {
         tile3 = getTile(x, y-1);
         if (tile3 != null) tile3.onNeighbourTileChange(this, x, y-1, x, y);
         return tile2;
+    }
+    public void scheduleTick (int x, int y, int ticks)
+    {
+        scheduledTicks.add(new int[]{x, y, ticks});
     }
     public boolean isEntityAt (int x, int y)
     {

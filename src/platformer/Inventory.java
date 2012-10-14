@@ -19,6 +19,9 @@ public class Inventory {
         slots.add(Tile.stone);
         slots.add(Tile.tnt);
         slots.add(Tile.wood);
+        slots.add(Tile.sand);
+        slots.add(Tile.gravel);
+        slots.add(Tile.water);
     }
     public void scrollUp ()
     {

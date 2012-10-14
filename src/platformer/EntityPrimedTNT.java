@@ -36,9 +36,11 @@ public class EntityPrimedTNT extends Entity {
         move(xspeed, yspeed);
         life -= delta;
         if (life <= 0) {
-            world.explosion((int) (x / 16.0),
-                    (int) (y / 16.0), 
-                    8);
+            if (!isWet()) {
+                world.explosion((int) (x / 16.0),
+                        (int) (y / 16.0), 
+                        8);
+            }
             die();
         }
     }
