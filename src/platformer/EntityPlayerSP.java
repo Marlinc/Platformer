@@ -33,17 +33,24 @@ public class EntityPlayerSP extends EntityPlayer {
         boolean left  = Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT);
         //if (up)    yadd += speed;
         //if (down)  yadd -= speed;
-
+        boolean isWet = isWet();
         if (onground)  jumpspeed = 0;
-        if (up && onground) jump();
-        if (!onground) jumpspeed -= delta / 30.0;
-        if (!onground) yadd -= delta / 20.0;
+        if (up && onground) jump(10);
+        if (!onground) {
+            yadd -= delta / 20.0;
+            jumpspeed -= delta / 30.0;
+            if (isWet) jumpspeed = 0;
+            if (isWet) yadd /= 3;
+        }
+        if (isWet && up) {
+            yadd += delta / 20.0;
+        }
         yadd += jumpspeed;
         if (right) xadd += speed;
         if (left)  xadd -= speed;
         
         move(xadd, yadd);
-        
+        if (isWet && yadd != 0 && !isWet()) jump(5);
         int mousedwheel = Mouse.getDWheel();
         if (mousedwheel > 0) inventory.scrollUp();
         if (mousedwheel < 0) inventory.scrollDown();
@@ -57,10 +64,10 @@ public class EntityPlayerSP extends EntityPlayer {
         double distanceX = Math.ceil(x / 16.0) - tmx;
         double distanceY = Math.ceil(y / 16.0) - tmy;
         double distance = Math.sqrt(distanceX*distanceX + distanceY*distanceY);
-        if        (distance < 5 && breakblock && (world.getTile(tmx, tmy).id != Tile.air.id)) {
+        if        (distance < 5 && breakblock && world.getTile(tmx, tmy).solid) {
             world.setTile(tmx, tmy, Tile.air, true);
         } else if (distance < 5 && placeblock) {
-            if (world.getTile(tmx, tmy).id == Tile.air.id) {
+            if (!world.getTile(tmx, tmy).solid) {
                 if (!world.isEntityAt(tmx, tmy)) world.setTile(tmx, tmy, inventory.holdingTile());
             } else if (mouse0 != placeblock) {
                 world.getTile(tmx, tmy).onInteract(world, tmx, tmy);
@@ -68,9 +75,9 @@ public class EntityPlayerSP extends EntityPlayer {
         }
         mouse0 = placeblock;
     }
-    public void jump ()
+    public void jump (int height)
     {
-        jumpspeed += 10;
+        jumpspeed += height;
     }
     public void render ()
     {

@@ -16,6 +16,15 @@ public class Entity {
         dead = false;
         this.world = world;
     }
+    public boolean isWet ()
+    {
+        List<Tile> tiles = getTouchingTiles();
+        for (Tile tile : tiles) {
+            if (tile == null) continue;
+            if (tile.id == Tile.water.id) return true; 
+        }
+        return false;
+    }
     public List<Tile> getTouchingTiles ()
     {
         List<Tile> tiles = new ArrayList<Tile>();
