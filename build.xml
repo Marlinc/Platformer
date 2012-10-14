@@ -64,7 +64,7 @@
     </target>
     
     <target name="windows-x86_64-jar" depends="global-manifest, compile">
-        <jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-windows-x86_64-.jar"
+        <jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-windows-x86_64.jar"
             filesetmanifest="mergewithoutmain" basedir="build/classes">
             <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
             <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
