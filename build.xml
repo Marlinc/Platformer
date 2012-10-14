@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="jar" name="Create Runnable Jar for Project Platformer">
     
-    <target name="all" depends="jar" />
+    <target name="all" depends="linux, windows" />
+    
+    <target name="linux" depends="linux-x86-jar, linux-x86_64-jar" />
+    <target name="windows" depends="windows-x86-jar, windows-x86_64-jar" />
+    
     
 	<path id="global-classpath">
 		<fileset file="lib/jars/lwjgl.jar" />
@@ -17,19 +21,61 @@
 		</javac>
 	</target>
 
-	<target name="jar" depends="global-manifest, compile">
-		<jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer.jar"
+	<target name="linux-x86-jar" depends="global-manifest, compile">
+		<jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-linux-x86.jar"
 			filesetmanifest="mergewithoutmain" basedir="build/classes">
 			<zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="lib/jars/slick-util.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="lib/jars/jarsplice.jar" />
-			<fileset file="lib/natives/*" />
+			<fileset file="lib/natives/linux/x86/*" />
 			<fileset dir=".">
 	           <include name="**/res/**"/>
 	        </fileset>
 		</jar>
 	</target>
+	
+	<target name="linux-x86_64-jar" depends="global-manifest, compile">
+        <jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-linux-x86_64.jar"
+            filesetmanifest="mergewithoutmain" basedir="build/classes">
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/slick-util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/jarsplice.jar" />
+            <fileset file="lib/natives/linux/x86_64/*" />
+            <fileset dir=".">
+               <include name="**/res/**"/>
+            </fileset>
+        </jar>
+    </target>
+    
+	<target name="windows-x86-jar" depends="global-manifest, compile">
+        <jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-windows-x86.jar"
+            filesetmanifest="mergewithoutmain" basedir="build/classes">
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/slick-util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/jarsplice.jar" />
+            <fileset file="lib/natives/windows/x86/*" />
+            <fileset dir=".">
+               <include name="**/res/**"/>
+            </fileset>
+        </jar>
+    </target>
+    
+    <target name="windows-x86_64-jar" depends="global-manifest, compile">
+        <jar manifest="build/META-INF/MANIFEST.MF" destfile="build/platformer-windows-x86_64-.jar"
+            filesetmanifest="mergewithoutmain" basedir="build/classes">
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/lwjgl_util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/slick-util.jar" />
+            <zipfileset excludes="META-INF/*.SF" src="lib/jars/jarsplice.jar" />
+            <fileset file="lib/natives/windows/x86_64/*" />
+            <fileset dir=".">
+               <include name="**/res/**"/>
+            </fileset>
+        </jar>
+    </target>
 
 	<target name="clean">
 		<delete dir="build/classes" />
