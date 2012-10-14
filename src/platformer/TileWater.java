@@ -21,6 +21,7 @@ public class TileWater extends Tile {
         Tile tile = world.getTile(x, y-1);
         if (tile != null && !tile.solid) {
             world.setTile(x, y-1, Tile.water);
+            return;
         }
         tile = world.getTile(x+1, y);
         if (tile != null && !tile.solid) {
