@@ -46,14 +46,16 @@ public class WorldGenerator {
                 }
             }
         }
-        perlin.persistence = 0.125;
-        perlin.zoom = 10;
+        perlin.persistence = 0.1;
+        perlin.zoom = 12;
         double[] map1d = perlin.getNoiseMap1d(chunkSize, cx * chunkSize);
         for (int x = 0; x < chunkSize; x++) {
-            int height = (int) ((map1d[x] / 2 + 0.5) * 25);
+            int height = (int) ((map1d[x] / 2 + 0.5) * 30);
             for (int ty = 0; ty < tiles[x].length; ty++) {
                 int tty = cy * chunkSize + ty;
-                if (tty > height)       tiles[x][ty] = Tile.air;
+                if      (tty > height && tty < 12) tiles[x][ty] = Tile.water;
+                else if (tty > height) tiles[x][ty] = Tile.air;
+                else if (tty == height && height < 11) tiles[x][ty] = Tile.dirt;
                 else if (tty == height) tiles[x][ty] = Tile.grass;
                 else if (tty > (height - 4)) tiles[x][ty] = Tile.dirt;
             }
